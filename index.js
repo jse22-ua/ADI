@@ -7,11 +7,9 @@ app.use(express.json())
 
 
 
-app.post('/users', usersControllers.registry)//registry
+app.post('/users', usersControllers.registry)
 
-/*app.post('/users/login',(pet,post)=>{
-// mirar lo de login
-})*/
+app.post('/users/login',usersControllers.login)
 
 app.get('/users/:id', usersControllers.showUser)
 
@@ -19,7 +17,7 @@ app.delete('/users/:id',usersControllers.deleteUser)
 
 app.put('/users/:id',usersControllers.editUser)
 
-app.get('/comics',comicsController.listComics)//por probar
+app.get('/comics',comicsController.listComics)//paginar
 
 app.post('/comics',comicsController.createComic)//por probar
 
@@ -33,7 +31,7 @@ app.delete('/comics/:id',comicsController.deleteComic)
 
 app.post('/pedidos',ordersController.createOrder)//por probar
 
-app.get('/pedidos',ordersController.listOrders)//por probar
+app.get('/pedidos',ordersController.listOrders)//paginar
 
 app.listen(3000,()=>{
     console.log("Servidor escuchando en el puerto 3000...")

@@ -1,0 +1,2726 @@
+{
+	"info": {
+		"_postman_id": "be2350f7-b194-4be8-b241-94f6162dfe77",
+		"name": "Practica 1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24739929"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Registry",
+					"item": [
+						{
+							"name": "registry 409 error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 409\", function () {",
+											"  pm.expect(pm.response.code).to.equal(409);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has required fields - code and message\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"  pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code is a non-zero integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.not.equal(0, \"Code should not be zero\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"  pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"ooo@gmail.com\",\r\n    \"password\":\"nicoo\",\r\n    \"nickname\":\"niii\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "registry wrong data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'code' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the response is in JSON format\", function () {",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is within acceptable range\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500); // Assuming the acceptable range is 500ms",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"sara_02gmail.com\",\r\n    \"password\":\"contraseña\",\r\n    \"nickname\":\"sarita\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "registry need data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"  pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'code' field is present in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"The 'code' field is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.be.a('number');",
+											"  pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"The 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"Alberto12@gmail.com\",\r\n    \"password\":\"blastoise\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "registry ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"Alberto_disc@gmail.com\",\r\n    \"password\":\"hunterShiny\",\r\n    \"nickname\":\"disco120\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getUser",
+					"item": [
+						{
+							"name": "getUser non found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUser OK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an object with id property\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('id');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an object with email property\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('email');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an object with password property\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('password');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an object with nickname property\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('nickname');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response is an object with admid property\", function () {\r",
+											"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('admid');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUser wrongId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields - code and message\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code should be a non-zero integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.not.equal(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"pm.test(\"Check json response\",()=>{",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(responseData.code).equal(4);",
+											"    pm.expect(responseData.message).equals(\"El parametro id debería ser un número\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/hola",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"hola"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "login wrong data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"  pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the response body structure - code and message fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0, \"Code should be a non-negative integer\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login wrong pass",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 401\", function () {",
+											"  pm.response.to.have.status(401);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the response has a 'code' field\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"The code field should be a non-zero integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.above(0, \"Value should be a non-zero integer\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has a 'message' field\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'message' field is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"nico@gmail.com\",\r\n    \"password\":\"hola\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.token).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Token is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.token).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Token should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Token is in a valid format\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.token).to.exist.and.to.match(/[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+/, \"Token should be in a valid format\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is in an acceptable range\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"nico@gmail.com\",\r\n    \"password\":\"nico\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"item": [
+						{
+							"name": "delete ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete wrongId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"  pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'code' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that 'code' is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/hola",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"hola"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete non found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"    pm.expect(pm.response.code).to.equal(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the error code\", function () {",
+											"  pm.expect(pm.response.code).to.equal(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the error message\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"  pm.expect(responseData.message).to.not.be.empty;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the response does not contain any user data\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.not.have.property(\"code\");",
+											"    pm.expect(responseData).to.not.have.property(\"message\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"10"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Edit User",
+					"item": [
+						{
+							"name": "Edit Ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Email is in a valid format\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.email).to.exist.and.to.match(/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/, \"Email is not in a valid format\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Password is not empty\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.password).to.exist.and.to.not.be.empty;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Admid is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.admid).to.be.a('number');",
+											"    pm.expect(responseData.admid).to.be.at.least(0);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"nico@gmail.com\",\r\n    \"password\":\"nicoo\",\r\n    \"nickname\":\"nicoNico\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit non found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"  pm.expect(pm.response.code).to.equal(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.code).to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message is a non-empty string\", function() {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"carlitos_y_snoopy@gmail.com\",\r\n    \"password\": \"charles_schulz\",\r\n    \"nickname\": \"charlie brown\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit wrongID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'code' field is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/hola",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"hola"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit need data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'code' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string', \"Value should be a string\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is in an acceptable range\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the request URL is correct\", function () {",
+											"    pm.expect(pm.request.url).to.eql(\"http://localhost:3000/users/2\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"charles_darwing@gmail.com\",\r\n    \"password\": \"lamarck_bobo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit wrong data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'code' field in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the request URL is correct\", function () {",
+											"  pm.expect(pm.request.url).to.equal(\"http://localhost:3000/users/2\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the request method is PUT\", function () {",
+											"    pm.expect(pm.request.method).to.equal(\"PUT\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"bugsbonnygmail.com\",\r\n    \"password\":\"que_hay_de_nuevo_viejo\",\r\n    \"nickname\":\"conejo_malo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Comics",
+			"item": [
+				{
+					"name": "Create Comic",
+					"item": [
+						{
+							"name": "create ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n    {\r\n        \"name\": \"Joker - One operation joker (Tomo 6)\",\r\n        \"autor\": \"Satoshi Miyagawa\",\r\n        \"description\": \"Batman cae en una tina de químicos y se transforma en un bebé. Joker lo cria como un héroe\",\r\n        \"category\": \"Manga\",\r\n        \"price\": 7.5,\r\n        \"stock\": 52\r\n    }\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create already exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 409\", function () {",
+											"  pm.expect(pm.response.code).to.equal(409);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"The Joker: the man who stopped laughing #1\",\r\n    \"autor\":\"Matthew Rosenberg\",\r\n    \"description\":\"El joker esta de regreso en la ciudad y tiene un nuevo plan\",\r\n    \"category\":\"DC\",\r\n    \"price\": 1.25,\r\n    \"stock\":10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create need data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code is a non-zero integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"  pm.expect(responseData.code).to.not.equal(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"the Immortal Hulk\",\r\n    \"autor\":\"Joe Bennett\",\r\n    \"description\":\"Mezcla entre horror, psicología y lo mejor de nuestro gigante verde\",\r\n    \"category\":\"Marvel\",\r\n    \"stock\":30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create wrong data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"  pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Test that 'code' is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"  pm.expect(responseData.code).to.be.at.least(0, \"'code' should be a non-negative integer\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"The 'message' is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"the Immortal Hulk\",\r\n    \"autor\":\"Joe Bennett\",\r\n    \"description\":\"Mezcla entre horror, psicología y lo mejor de nuestro gigante verde\",\r\n    \"category\":\"Marvel\",\r\n    \"price\": -12.3,\r\n    \"stock\":30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "getComic",
+					"item": [
+						{
+							"name": "getComic OK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.id).to.exist;",
+											"    pm.expect(responseData.name).to.exist;",
+											"    pm.expect(responseData.author).to.exist;",
+											"    pm.expect(responseData.description).to.exist;",
+											"    pm.expect(responseData.category).to.exist;",
+											"    pm.expect(responseData.price).to.exist;",
+											"    pm.expect(responseData.stock).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Price is a non-negative number\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.price).to.be.a('number').and.to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Stock is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.stock).to.be.a('number');",
+											"    pm.expect(responseData.stock).to.be.at.least(0, \"Stock should be a non-negative integer\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getComic wrong id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {\r",
+											"    pm.expect(pm.response.code).to.equal(400);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response has the required fields - code and message\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');\r",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Code should be a non-zero integer\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');\r",
+											"    pm.expect(responseData.code).to.not.equal(0);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Message is a non-empty string\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check json response\",()=>{\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.code).equal(4);\r",
+											"    pm.expect(responseData.message).equals(\"El parametro id debería ser un número\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/hola",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"hola"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getComic non found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"    pm.expect(pm.response.code).to.equal(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/30",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"30"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete Comic",
+					"item": [
+						{
+							"name": "Delete ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete wrongId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'code' field is a non-zero integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.not.equal(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/joker",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"joker"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete non found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"    pm.expect(pm.response.code).to.equal(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'code' field is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.exist;",
+											"    pm.expect(responseData.code).to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/35",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"35"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List Comics",
+					"item": [
+						{
+							"name": "listComics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.expect(pm.response.code).to.equal(200);",
+											"});",
+											"",
+											"",
+											"  pm.test(\"Verify that the response is an array\", function () {",
+											"    pm.expect(pm.response.json()).to.be.an('array');",
+											"  });",
+											"",
+											"",
+											"pm.test(\"Verify that the price and stock are non-negative numbers\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('array');",
+											"",
+											"    responseData.forEach(function (comic) {",
+											"        pm.expect(comic.price).to.exist.and.to.be.a('number').and.to.be.at.least(0, \"Price should be a non-negative number\");",
+											"        pm.expect(comic.stock).to.exist.and.to.be.a('number').and.to.be.at.least(0, \"Stock should be a non-negative number\");",
+											"    });",
+											"});",
+											"",
+											"pm.test(\"Verify that the name field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"    responseData.forEach(function (comic) {",
+											"        pm.expect(comic.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name field should not be empty\");",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Search Comic",
+					"item": [
+						{
+							"name": "search param not valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"    pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields - code and message\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist.and.to.be.a('number');",
+											"    pm.expect(responseData.code).to.be.at.least(0, \"Code should be a non-negative integer\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Message is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/buscar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"buscar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "search autor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the response is an array\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"});",
+											"",
+											"",
+											"pm.test(\"The 'id' field is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    responseData.forEach(function(comic) {",
+											"        pm.expect(comic.id).to.be.a('number');",
+											"        pm.expect(comic.id).to.be.at.least(0);",
+											"    });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'name' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"    responseData.forEach(function(comic){",
+											"        pm.expect(comic.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"    });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'autor' field is equal to 'Joshua' for all elements in the response array\", function () {",
+											"    const responseData = pm.response.json();",
+											"  ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"    ",
+											"    responseData.forEach(function(comic) {",
+											"        pm.expect(comic.autor).to.equal(\"Joshua\");",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/buscar?autor=Joshua",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"buscar"
+									],
+									"query": [
+										{
+											"key": "autor",
+											"value": "Joshua"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "search name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response is an array with at least one element\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Price is a non-negative number\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('array');",
+											"  responseData.forEach(function(comic){",
+											"    pm.expect(comic.price).to.be.a('number').and.to.be.at.least(0);",
+											"  });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Stock is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"    responseData.forEach(function(comic) {",
+											"        pm.expect(comic).to.have.property('stock').that.is.a('number').and.is.at.least(0);",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/buscar?name=Joker",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"buscar"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Joker"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "search autor and name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the response body is an array\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'name' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array');",
+											"    responseData.forEach(function(item) {",
+											"        pm.expect(item.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"    });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate price and stock fields are non-negative integers\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('array');",
+											"",
+											"    responseData.forEach(function (comic) {",
+											"        pm.expect(comic.price).to.be.a('number').and.to.be.gte(0, \"Price should be a non-negative integer\");",
+											"        pm.expect(comic.stock).to.be.a('number').and.to.be.gte(0, \"Stock should be a non-negative integer\");",
+											"    });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/comics/buscar?autor=Satoshi&name=Joker",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"buscar"
+									],
+									"query": [
+										{
+											"key": "autor",
+											"value": "Satoshi"
+										},
+										{
+											"key": "name",
+											"value": "Joker"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "edit Comic",
+					"item": [
+						{
+							"name": "edit Comic OK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the id field is a non-negative integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.id).to.be.a('number');",
+											"    pm.expect(responseData.id).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the name field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name field should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"The autor field should be a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.autor).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate description field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.have.property('description').that.is.a('string').and.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"id\": 2,\r\n        \"name\": \"The marvels #8\",\r\n        \"autor\": \"Yildiray cinar\",\r\n        \"description\": \"Un comic donde el futuro del universo marvel visto a través de los ojos de tres poderosas mujeres\",\r\n        \"category\": \"Marvel\",\r\n        \"price\": 3.25,\r\n        \"stock\": 30\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit non found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the value of the 'code' field is a non-zero number\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.be.a('number').and.to.not.equal(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the value of the 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData.message).to.be.a('string').and.not.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"id\": 2,\r\n        \"name\": \"The marvels #8\",\r\n        \"autor\": \"Yildiray cinar\",\r\n        \"description\": \"Un comic donde el futuro del universo marvel visto a través de los ojos de tres poderosas mujeres\",\r\n        \"category\": \"Marvel\",\r\n        \"price\": 4.5,\r\n        \"stock\": 12\r\n    }\r\n    ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics/20",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"20"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit need data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"  pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate response code and message\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"  pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"  pm.expect(responseData.code).to.be.a('number');",
+											"  pm.expect(responseData.code).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the message is a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is in an acceptable range\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"id\": 2,\r\n        \"name\": \"The marvels #8\",\r\n        \"autor\": \"Yildiray cinar\",\r\n        \"description\": \"Un comic donde el futuro del universo marvel visto a través de los ojos de tres poderosas mujeres\",\r\n        \"category\": \"Marvel\",\r\n        \"stock\": 12\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/comics/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"comics",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Add order",
+					"item": [
+						{
+							"name": "create order OK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the required fields\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.id).to.exist;",
+											"  pm.expect(responseData.id_user).to.exist;",
+											"  pm.expect(responseData.id_comic).to.exist;",
+											"  pm.expect(responseData.price).to.exist;",
+											"  pm.expect(responseData.fecha).to.exist;",
+											"  pm.expect(responseData.quantity).to.exist;",
+											"  pm.expect(responseData.totalprice).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"ID is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.id).to.exist.and.to.be.a('number');",
+											"  pm.expect(responseData.id).to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Price is a non-negative number\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.price).to.exist.and.to.be.a('number').and.to.be.at.least(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Fecha is in a valid date format\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.fecha).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id_user\":\"2\",\r\n    \"id_comic\":\"2\",\r\n    \"quantity\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create order need data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {",
+											"  pm.expect(pm.response.code).to.equal(400);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the 'code' field\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has the 'message' field\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Code is a non-zero integer\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.be.a('number').and.to.not.equal(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"The message should be a non-empty string\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id_user\":\"1\",\r\n    \"quantity\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create order wrong user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"  pm.response.to.have.status(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the code field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate the 'message' field in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the response does not contain any additional fields\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(Object.keys(responseData)).to.have.lengthOf(2, \"Response should only contain 'code' and 'message' fields\");",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"  pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id_user\":\"30\",\r\n    \"id_comic\":\"1\",\r\n    \"quantity\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create order wrong comic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 404\", function () {",
+											"  pm.response.to.have.status(404);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'code' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.code).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that the 'message' field is present in the response\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('object');",
+											"    pm.expect(responseData.message).to.exist;",
+											"});",
+											"",
+											"",
+											"pm.test(\"The code field is a non-negative integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  pm.expect(responseData).to.be.an('object');",
+											"  pm.expect(responseData.code).to.exist.and.to.be.a('number').and.to.be.gte(0);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Validate that the 'message' field is a non-empty string\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData.message).to.be.a('string').and.not.to.be.empty;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id_user\":\"1\",\r\n    \"id_comic\":\"30\",\r\n    \"quantity\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GetOrders",
+					"item": [
+						{
+							"name": "getPedidos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response is an array with at least one element\", function () {",
+											"    const responseData = pm.response.json();",
+											"    ",
+											"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+											"});",
+											"",
+											"",
+											"pm.test(\"Price is a non-negative number\", function () {",
+											"  const responseData = pm.response.json();",
+											"",
+											"  responseData.forEach(function (pedido) {",
+											"    pm.expect(pedido.price).to.be.a('number').and.to.be.at.least(0);",
+											"  });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Quantity is a positive integer\", function () {",
+											"  const responseData = pm.response.json();",
+											"  ",
+											"  responseData.forEach(function(pedido) {",
+											"    pm.expect(pedido.quantity).to.be.a('number');",
+											"    pm.expect(pedido.quantity).to.be.greaterThan(0);",
+											"    pm.expect(pedido.quantity % 1).to.equal(0);",
+											"  });",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/pedidos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"pedidos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

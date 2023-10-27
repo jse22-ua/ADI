@@ -5,6 +5,9 @@ const knex = require('knex')({
     }
 });
 
+const jwt = require('jwt-simple');
+const moment = require('moment')
+
 function validateEmail(email){
     const emailOK = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailOK.test(email);
@@ -13,12 +16,12 @@ function validateEmail(email){
 }
 
 async function existUser(id){
-    user = await knex('users').where({id}).first()
+    user = await knex('users').where("id","=",id).first()
     if(!user){
-      return false
+        return false
     }
     return true
-  }
+}
 
 async function existEmail(email){
     const existEmail = await knex('users').where({email}).first();
@@ -30,8 +33,45 @@ async function existEmail(email){
     }
 }
 
-function login(pet,resp){
-
+async function login(pet,resp){
+    const datos = pet.body;
+    if(!datos.email ||!datos.password){
+        resp.status(400)
+        resp.send({
+            code:2,
+            message: 'Datos incorrectos'
+        })
+    }
+    else{
+        try{
+            const user = await knex('users').where("email","=",datos.email).first()
+            if(!user){
+                resp.status(404)
+                resp.send({
+                    code:5,
+                    message:"Usuario no encontrado"
+                })
+            }else{
+                if(user.password != datos.password){
+                    resp.status(401)
+                    resp.send({
+                        code:9,
+                        message: 'Contraseña errónea'
+                    })
+                }
+                else{
+                    const payload = {
+                        login: datos.email,
+                        exp: moment().add(7, 'days').valueOf()
+                    }
+                    const token = jwt.encode(payload,datos.password)
+                    resp.send({token:token})
+                }
+            }
+        }catch(error){
+            resp.status(500).send({error:error})
+        }
+    }
 }
 
 async function registry(pet,resp){
@@ -123,7 +163,7 @@ async function editUser(pet,resp){
                 })
             }else{
                 resp.status(200);
-                resp.send(await knex('users').where('id','=',update).first())
+                resp.send(await knex('users').where('id','=',id).first())
             }
         }catch(error){
             resp.status(500).send({error:error})
